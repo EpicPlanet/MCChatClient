@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ MCChatClient - a brief idea of what it does
+  ~ Copyright (C) 2016 Final Child
+  ~
+  ~ This file is part of MCChatClient.
+  ~
+  ~ MCChatClient is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ MCChatClient is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with MCChatClient.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<Configuration status="WARN" packages="com.mojang.util">
+    <Appenders>
+        <Console name="WINDOWS_COMPAT" target="SYSTEM_OUT"></Console>
+        <Queue name="TerminalConsole">
+            <PatternLayout pattern="[%d{HH:mm:ss} %level]: %msg%n" />
+        </Queue>
+        <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %msg%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <OnStartupTriggeringPolicy />
+            </Policies>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <filters>
+                <MarkerFilter marker="NETWORK_PACKETS" onMatch="DENY" onMismatch="NEUTRAL" />
+            </filters>
+            <AppenderRef ref="WINDOWS_COMPAT" level="info"/>
+            <AppenderRef ref="File"/>
+            <AppenderRef ref="TerminalConsole" level="info"/>
+        </Root>
+    </Loggers>
+</Configuration>
+
